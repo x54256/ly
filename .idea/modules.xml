@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ly-commons/ly-commons.iml" filepath="$PROJECT_DIR$/ly-commons/ly-commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-gateway/ly-gateway.iml" filepath="$PROJECT_DIR$/ly-gateway/ly-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-item/ly-item.iml" filepath="$PROJECT_DIR$/ly-item/ly-item.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-item/ly-item-interface/ly-item-interface.iml" filepath="$PROJECT_DIR$/ly-item/ly-item-interface/ly-item-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-item/ly-item-service/ly-item-service.iml" filepath="$PROJECT_DIR$/ly-item/ly-item-service/ly-item-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-parent.iml" filepath="$PROJECT_DIR$/ly-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-register/ly-register.iml" filepath="$PROJECT_DIR$/ly-register/ly-register.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-search/ly-search.iml" filepath="$PROJECT_DIR$/ly-search/ly-search.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-search/ly-search-interface/ly-search-interface.iml" filepath="$PROJECT_DIR$/ly-search/ly-search-interface/ly-search-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-search/ly-search-service/ly-search-service.iml" filepath="$PROJECT_DIR$/ly-search/ly-search-service/ly-search-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-upload/ly-upload.iml" filepath="$PROJECT_DIR$/ly-upload/ly-upload.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-upload/ly-upload-interface/ly-upload-interface.iml" filepath="$PROJECT_DIR$/ly-upload/ly-upload-interface/ly-upload-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-upload/ly-upload-service/ly-upload-service.iml" filepath="$PROJECT_DIR$/ly-upload/ly-upload-service/ly-upload-service.iml" />
+    </modules>
+  </component>
+</project>

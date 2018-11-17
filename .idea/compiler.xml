@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="ly-commons" />
+        <module name="ly-gateway" />
+        <module name="ly-item-interface" />
+        <module name="ly-item-service" />
+        <module name="ly-register" />
+        <module name="ly-search-interface" />
+        <module name="ly-search-service" />
+        <module name="ly-upload-interface" />
+        <module name="ly-upload-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ly-commons" target="1.8" />
+      <module name="ly-gateway" target="1.8" />
+      <module name="ly-item" target="1.8" />
+      <module name="ly-item-interface" target="1.8" />
+      <module name="ly-item-service" target="1.8" />
+      <module name="ly-parent" target="1.8" />
+      <module name="ly-register" target="1.8" />
+      <module name="ly-search" target="1.8" />
+      <module name="ly-search-interface" target="1.8" />
+      <module name="ly-search-service" target="1.8" />
+      <module name="ly-upload" target="1.8" />
+      <module name="ly-upload-interface" target="1.8" />
+      <module name="ly-upload-service" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

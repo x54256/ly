@@ -1,0 +1,188 @@
+package cn.x5456.leyou.item.service.impl;
+
+import cn.x5456.leyou.common.pojo.PageResult;
+import cn.x5456.leyou.item.dozer.EJBGenerator;
+import cn.x5456.leyou.item.dto.GoodsDTO;
+import cn.x5456.leyou.item.entity.TbSkuEntity;
+import cn.x5456.leyou.item.entity.TbSpuDetailEntity;
+import cn.x5456.leyou.item.entity.TbSpuEntity;
+import cn.x5456.leyou.item.entity.TbStockEntity;
+import cn.x5456.leyou.item.repository.SkuRepository;
+import cn.x5456.leyou.item.repository.SpuDetailRepository;
+import cn.x5456.leyou.item.repository.SpuRepository;
+import cn.x5456.leyou.item.repository.StockRepository;
+import cn.x5456.leyou.item.service.BrandService;
+import cn.x5456.leyou.item.service.CategoryService;
+import cn.x5456.leyou.item.service.GoodsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+
+@Service
+@Transactional
+public class  GoodsServiceImpl implements GoodsService {
+
+    @Autowired
+    private SpuRepository spuRepository;
+
+    @Autowired
+    private SpuDetailRepository spuDetailRepository;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private BrandService brandService;
+
+    @Autowired
+    private SkuRepository skuRepository;
+
+    @Autowired
+    private StockRepository stockRepository;
+
+    /**
+     * 分页查询商品信息
+     * @param page
+     * @param rows
+     * @param saleable:是否上架
+     * @param key
+     * @return
+     */
+    public PageResult<TbSpuEntity> querySpuByPageAndSort(Integer page, Integer rows, Boolean saleable, String key) {
+
+        Pageable pageable = PageRequest.of(page, rows);
+
+        Page<TbSpuEntity> spuOfPage = spuRepository.findSpuOfPage(saleable, "%" + key + "%", pageable);
+
+        spuOfPage.getContent().forEach(x -> {
+
+            // 获取分类名 ==> 家用电器/大 家 电/平板电视
+            x.setCname(categoryService.queryCategoryByCid3(x.getCid3()));
+            // 获取品牌名
+            x.setBname(brandService.queryBrandById(x.getBrandId()));
+
+        });
+
+        return new PageResult<TbSpuEntity>(spuOfPage.getTotalElements(),spuOfPage.getTotalPages(),spuOfPage.getContent());
+    }
+
+    @Autowired
+    protected EJBGenerator dozer;
+
+    /**
+     * 新增商品DTO
+     * @param goodsDTO:商品DTO
+     * @return
+     */
+    @Transactional
+    @Override
+    public void saveGoods(GoodsDTO goodsDTO) {
+
+        // 1. 保存spu
+        goodsDTO.setValid(true);
+        goodsDTO.setSaleable(true);
+        goodsDTO.setCreateTime(new Date());
+
+        // 使用dozer进行优化
+        // TbSpuEntity spu =  new TbSpuEntity(goodsDTO.getId(),goodsDTO.getBrandId(),goodsDTO.getCid1(),goodsDTO.getCid2(),goodsDTO.getCid3(),goodsDTO.getTitle(),goodsDTO.getSubTitle(),true,true,new Date(),new Date(),goodsDTO.getCname(),goodsDTO.getBname());
+        TbSpuEntity spu = dozer.convert(goodsDTO, TbSpuEntity.class);
+
+        Long spuId = spuRepository.save(spu).getId();
+        // 2. 获取spu的id，保存spuDetail
+        TbSpuDetailEntity spuDetailEntity = goodsDTO.getSpuDetail();
+        spuDetailEntity.setSpuId(spuId);
+        spuDetailRepository.save(spuDetailEntity);
+        // 3. 保存所有sku
+        List<TbSkuEntity> skuEntities = goodsDTO.getSkus();
+            // 3.1 所有sku
+            // 3.2 将库存字段取出，保存
+        skuEntities.forEach(x -> {
+            x.setCreateTime(new Date());
+            x.setLastUpdateTime(new Date());
+            x.setSpuId(spuId);
+            Long skuId = skuRepository.save(x).getId();
+            TbStockEntity tbStockEntity = new TbStockEntity(skuId, null, null, x.getStock());
+            stockRepository.save(tbStockEntity);
+        });
+
+
+
+    }
+
+    @Transactional
+    @Override
+    public void updateGoods(GoodsDTO goodsDTO) {
+
+        // 1. 更新spu，使用的也是save方法
+        TbSpuEntity spu = dozer.convert(goodsDTO, TbSpuEntity.class);
+        spuRepository.save(spu);
+
+        // 2. 获取spu的id，保存spuDetail
+        TbSpuDetailEntity spuDetailEntity = goodsDTO.getSpuDetail();
+        spuDetailRepository.save(spuDetailEntity);
+
+        // 3.删除所有spu相关的sku
+        skuRepository.deleteBySpuId(goodsDTO.getId());
+
+        // 4. 保存所有sku
+        List<TbSkuEntity> skuEntities = goodsDTO.getSkus();
+        // 4.1 所有sku
+        // 4.2 将库存字段取出，保存
+        skuEntities.forEach(x -> {
+            x.setLastUpdateTime(new Date());
+            Long skuId = skuRepository.save(x).getId();
+            TbStockEntity tbStockEntity = new TbStockEntity(skuId, null, null, x.getStock());
+            stockRepository.save(tbStockEntity);
+        });
+    }
+
+    /**
+     * 根据id查询商品通用信息
+     * @param id
+     * @return
+     */
+    @Override
+    public TbSpuEntity querySpuById(Long id) {
+
+        Optional<TbSpuEntity> optional = spuRepository.findById(id);
+
+        return optional.orElse(null);
+    }
+
+    /**
+     * 根据spuid查询商品具体信息
+     * @param spuId
+     * @return
+     */
+    @Override
+    public List<TbSkuEntity> querySkuById(Long spuId) {
+        return skuRepository.findAllBySpuId(spuId);
+    }
+
+    /**
+     * 查询所有spu
+     * @return
+     */
+    @Override
+    public List<TbSpuEntity> findAllSpu() {
+        return spuRepository.findAll();
+    }
+
+    /**
+     * spu详情信息
+     */
+    @Override
+    public TbSpuDetailEntity querySpuDetailBySpuId(Long spuId) {
+        return spuDetailRepository.findById(spuId).orElse(null);
+    }
+
+
+}
