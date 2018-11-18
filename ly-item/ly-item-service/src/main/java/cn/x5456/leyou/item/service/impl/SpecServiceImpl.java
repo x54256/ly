@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -56,6 +58,39 @@ public class SpecServiceImpl implements SpecService {
     @Override
     public List<TbSpecParamEntity> findAllBySearchingAndCid(Long cid) {
         return specParamRepository.findAllBySearchingAndCid(true,cid);
+    }
+
+    @Override
+    public List<TbSpecGroupEntity> querySpecsByCid(Long cid) {
+
+        List<TbSpecGroupEntity> specGroupById = this.findSpecGroupById(cid);
+
+        // TODO: 2018/11/18 这中方式，要与数据库进行多次交互，数据量大时时间很长
+//        specGroupById.forEach(x -> {
+//            // 根据组id查询所有的参数
+//            specParamRepository.findAllByGroupId(x.getId());
+//        });
+
+        // 一次性查出所有的params
+        List<TbSpecParamEntity> allByCid = specParamRepository.findAllByCid(cid);
+        // 将其进行根据组id进行分组，key是组id，value是组下的参数列表
+        Map<Long, List<TbSpecParamEntity>> map = allByCid.stream().collect(Collectors.groupingBy(TbSpecParamEntity::getGroupId));
+
+        specGroupById.forEach(x -> x.setParams(map.get(x.getId())));
+
+
+        return specGroupById;
+    }
+
+    /**
+     * 通过商品分类和是否通用进行查询
+     * @param cid
+     * @return
+     */
+    @Override
+    public List<TbSpecParamEntity> findAllByGenericAndCid(Long cid) {
+
+        return specParamRepository.findAllByGenericAndCid(false,cid);
     }
 
 

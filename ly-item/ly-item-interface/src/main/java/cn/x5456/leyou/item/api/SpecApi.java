@@ -44,4 +44,20 @@ public interface SpecApi {
      */
     @GetMapping("/params/searching/{cid}")
     List<TbSpecParamEntity> findAllBySearchingAndCid(@PathVariable(value = "cid") Long cid);
+
+    /**
+     * 根据规格参数组id进行查询（与上面的不同，这个需要把组下的规格参数也要查出来）
+     * @param cid：商品分类id，一个分类下有多个规格组
+     * @return
+     */
+    @GetMapping("{cid}")
+    List<TbSpecGroupEntity> querySpecsByCid(@PathVariable("cid") Long cid);
+
+    /**
+     * 通过商品分类和是否通用进行查询
+     * @param cid
+     * @return
+     */
+    @GetMapping("/params/generic/{cid}")
+    List<TbSpecParamEntity> findAllByGenericAndCid(@PathVariable(value = "cid") Long cid);
 }

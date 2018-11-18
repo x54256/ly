@@ -15,4 +15,6 @@ public interface SpecParamRepository extends JpaRepository<TbSpecParamEntity,Lon
     List<TbSpecParamEntity> findAllByCidAndGroupId(Long cid,Long gid);
 
     List<TbSpecParamEntity> findAllBySearchingAndCid(Boolean searching,Long cid);
+
+    List<TbSpecParamEntity> findAllByGenericAndCid(Boolean generic,Long cid);
 }

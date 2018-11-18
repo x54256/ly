@@ -7,6 +7,7 @@ import cn.x5456.leyou.item.entity.TbSpecParamEntity;
 import cn.x5456.leyou.item.service.SpecService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +41,20 @@ public class SpecController {
         }
 
         return ResponseEntity.ok(specGroupEntitys);
+    }
+
+    /**
+     * 根据规格参数组id进行查询（与上面的不同，这个需要把组下的规格参数也要查出来）
+     * @param cid：商品分类id，一个分类下有多个规格组
+     * @return
+     */
+    @GetMapping("{cid}")
+    public ResponseEntity<List<TbSpecGroupEntity>> querySpecsByCid(@PathVariable("cid") Long cid){
+        List<TbSpecGroupEntity> list = this.specService.querySpecsByCid(cid);
+        if(list == null || list.size() == 0){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(list);
     }
 
 
@@ -79,4 +94,18 @@ public class SpecController {
         return ResponseEntity.ok(specs);
     }
 
+
+    /**
+     * 通过商品分类和是否通用进行查询
+     * @param cid
+     * @return
+     */
+    @GetMapping("/params/generic/{cid}")
+    public ResponseEntity<List<TbSpecParamEntity>> findAllByGenericAndCid(@PathVariable Long cid){
+        List<TbSpecParamEntity> specs = specService.findAllByGenericAndCid(cid);
+        if (specs == null) {
+            throw new LyException(ExceptionEnums.SPEC_PARAM_CANNOT_BE_NULL);
+        }
+        return ResponseEntity.ok(specs);
+    }
 }

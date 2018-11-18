@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
+// TODO: 2018/11/18 此处只做了基本的查询，聚合工作没有做
 @RestController
 public class SearchController {
 

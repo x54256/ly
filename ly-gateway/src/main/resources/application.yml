@@ -19,6 +19,7 @@ zuul:
     # 微服务名: 要映射到到地址
     item-service: /item/** # 将商品微服务映射到/item/**
     search-service: /search/**
+
   # 图片上传是文件的传输，如果也经过Zuul网关的代理，文件就会经过多次网路传输，造成不必要的网络负担。
   # 在高并发时，可能导致网络阻塞，Zuul网关不可用。这样我们的整个系统就瘫痪了。
   ignored-services:

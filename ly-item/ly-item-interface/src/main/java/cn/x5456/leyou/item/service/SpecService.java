@@ -11,4 +11,8 @@ public interface SpecService {
     List<TbSpecParamEntity> findSpecParamsByGidOrCid(Long gid,Long cid);
 
     List<TbSpecParamEntity> findAllBySearchingAndCid(Long cid);
+
+    List<TbSpecGroupEntity> querySpecsByCid(Long cid);
+
+    List<TbSpecParamEntity> findAllByGenericAndCid(Long cid);
 }

@@ -162,5 +162,30 @@ server {
 所以在写接口时，一定要规范，要不就写好，要不就不写
 
 
+## 6、使用Java8新特性，简化数据库交互
 
+```java
+    @Override
+    public List<TbSpecGroupEntity> querySpecsByCid(Long cid) {
+
+        List<TbSpecGroupEntity> specGroupById = this.findSpecGroupById(cid);
+
+        // TODO: 2018/11/18 这中方式，要与数据库进行多次交互，数据量大时时间很长
+//        specGroupById.forEach(x -> {
+//            // 根据组id查询所有的参数
+//            specParamRepository.findAllByGroupId(x.getId());
+//        });
+
+        // 一次性查出所有的params
+        List<TbSpecParamEntity> allByCid = specParamRepository.findAllByCid(cid);
+        // 将其进行根据组id进行分组，key是组id，value是组下的参数列表
+        Map<Long, List<TbSpecParamEntity>> map = allByCid.stream().collect(Collectors.groupingBy(TbSpecParamEntity::getGroupId));
+
+        specGroupById.forEach(x -> x.setParams(map.get(x.getId())));
+
+
+        return specGroupById;
+    }
+
+```
 

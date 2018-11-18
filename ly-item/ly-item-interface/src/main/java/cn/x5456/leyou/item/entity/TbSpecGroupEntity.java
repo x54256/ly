@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,4 +20,6 @@ public class TbSpecGroupEntity {
     private Long cid;   // 商品分类id，一个分类下有多个规格组
     private String name;    // 规格组名称
 
+    @Transient
+    private List<TbSpecParamEntity> params; // 该组下的所有规格参数集合
 }
