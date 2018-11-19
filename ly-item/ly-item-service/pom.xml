@@ -52,7 +52,11 @@
             <artifactId>dozer</artifactId>
             <version>5.5.1</version>
         </dependency>
-
+        <!--ribbitMQ-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

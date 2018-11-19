@@ -1,5 +1,7 @@
 package cn.x5456.leyou.goods.service.impl;
 
+import cn.x5456.leyou.common.enums.ExceptionEnums;
+import cn.x5456.leyou.common.exception.LyException;
 import cn.x5456.leyou.goods.client.BrandClient;
 import cn.x5456.leyou.goods.client.CategoryClient;
 import cn.x5456.leyou.goods.client.GoodsClient;
@@ -101,11 +103,22 @@ public class GoodsServiceImpl implements GoodsService {
             templateEngine.process("item", context, writer);
         } catch (Exception e) {
             log.error("页面静态化出错：{}，"+ e, spuId);
+            e.printStackTrace();
+            throw new LyException(ExceptionEnums.PAGE_CONVERT_FAILD);
         } finally {
             if (writer != null) {
                 writer.close();
             }
         }
+    }
+
+    /**
+     * 删除相应的静态页面
+     * @param id
+     */
+    @Override
+    public void deleteHtml(Long id) {
+
     }
 
     /**

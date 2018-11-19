@@ -189,3 +189,27 @@ server {
 
 ```
 
+## 7、SpringAMQP消费者端，重试机制
+
+    spring.rabbitmq.listener.simple.retry.max-attempts=5  最大重试次数
+    spring.rabbitmq.listener.simple.retry.enabled=true 是否开启消费者重试（为false时关闭消费者重试，这时消费端代码异常会一直重复收到消息）
+    spring.rabbitmq.listener.simple.retry.initial-interval=5000 重试间隔时间（单位毫秒）
+    spring.rabbitmq.listener.simple.default-requeue-rejected=false 重试次数超过上面的设置之后是否丢弃（false不丢弃时需要写相应代码将该消息加入死信队列）
+
+
+## 8、@Autowired与@Resource的区别
+
+
+## 9、HIbrenate数据校验
+
+
+## 10、redis实现时间的记录
+
+
+## 11、nignx，zuul转发的坑
+
+
+## 12、获取cookie的注解
+
+@CookieValue("${ly.jwt.cookieName}
+

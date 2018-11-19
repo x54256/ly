@@ -28,6 +28,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,36 +88,45 @@ public class SearchServiceImpl implements SearchService {
         List<Goods> goodsList = new ArrayList<>();
 
         allSpu.forEach(x -> {
-            Goods goods = new Goods();
-            goods.setId(x.getId());
-            goods.setSubTitle(x.getSubTitle());
-            goods.setBrandId(x.getBrandId());
-            goods.setCid1(x.getCid1());
-            goods.setCid2(x.getCid2());
-            goods.setCid3(x.getCid3());
-            goods.setCreateTime(x.getCreateTime());
-            // 2.查询spu下的所有sku
-            List<TbSkuEntity> skus = goodsClient.querySkuById(x.getId());
-            goods.setPrice(getAllPrice(skus));
-            goods.setSkus(JsonUtils.toString(skus));
-            // 3.根据spu的分类id，找出需要搜索的规格参数
-                // 3.1 查出所有需要搜索的规格参数
-            List<TbSpecParamEntity> specBySearchingAndCid = specClient.findAllBySearchingAndCid(x.getCid3());
-                // 3.2 查出商品详情，下的特有+共有的规格参数列表
-            TbSpuDetailEntity spuDetailBySpuId = goodsClient.findSpuDetailBySpuId(x.getId());
-                // 3.3 调用方法，返回字典
-            goods.setSpecs(getSpecsMap(specBySearchingAndCid,spuDetailBySpuId));
-
-            // 4.all ==> 标题，分类，品牌
-            goods.setAll(x.getTitle() + " " + categoryClient.queryCategoryByCid3(x.getCid3()) + " " + brandClient.findBrandById(x.getBrandId()).getName());
-
-            goodsList.add(goods);
+            Goods goods = this.buildGoods(x);
+           goodsList.add(goods);
         });
-
 
         return goodsList;
     }
 
+    /**
+     * spu转goods
+     * @param x
+     * @return
+     */
+    private Goods buildGoods(TbSpuEntity x) {
+
+        Goods goods = new Goods();
+        goods.setId(x.getId());
+        goods.setSubTitle(x.getSubTitle());
+        goods.setBrandId(x.getBrandId());
+        goods.setCid1(x.getCid1());
+        goods.setCid2(x.getCid2());
+        goods.setCid3(x.getCid3());
+        goods.setCreateTime(x.getCreateTime());
+        // 2.查询spu下的所有sku
+        List<TbSkuEntity> skus = goodsClient.querySkuById(x.getId());
+        goods.setPrice(getAllPrice(skus));
+        goods.setSkus(JsonUtils.toString(skus));
+        // 3.根据spu的分类id，找出需要搜索的规格参数
+        // 3.1 查出所有需要搜索的规格参数
+        List<TbSpecParamEntity> specBySearchingAndCid = specClient.findAllBySearchingAndCid(x.getCid3());
+        // 3.2 查出商品详情，下的特有+共有的规格参数列表
+        TbSpuDetailEntity spuDetailBySpuId = goodsClient.findSpuDetailBySpuId(x.getId());
+        // 3.3 调用方法，返回字典
+        goods.setSpecs(getSpecsMap(specBySearchingAndCid,spuDetailBySpuId));
+
+        // 4.all ==> 标题，分类，品牌
+        goods.setAll(x.getTitle() + " " + categoryClient.queryCategoryByCid3(x.getCid3()) + " " + brandClient.findBrandById(x.getBrandId()).getName());
+
+        return goods;
+    }
 
     /**
      *
@@ -230,5 +240,23 @@ public class SearchServiceImpl implements SearchService {
 
         // 封装结果并返回
         return new PageResult<>(goodsPage.getTotalElements(), goodsPage.getTotalPages(), goodsPage.getContent());
+    }
+
+    @Override
+    public void createIndex(Long id) throws IOException {
+
+        TbSpuEntity spu = this.goodsClient.querySpuById(id);
+        // 构建商品
+        Goods goods = this.buildGoods(spu);
+
+        // 保存数据到索引库
+        this.goodsRepository.save(goods);
+    }
+
+
+
+    @Override
+    public void deleteIndex(Long id) {
+        this.goodsRepository.deleteById(id);
     }
 }

@@ -14,6 +14,8 @@ import cn.x5456.leyou.item.repository.StockRepository;
 import cn.x5456.leyou.item.service.BrandService;
 import cn.x5456.leyou.item.service.CategoryService;
 import cn.x5456.leyou.item.service.GoodsService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-
+@Slf4j
 @Service
 @Transactional
 public class  GoodsServiceImpl implements GoodsService {
@@ -113,7 +115,8 @@ public class  GoodsServiceImpl implements GoodsService {
             stockRepository.save(tbStockEntity);
         });
 
-
+        // 4.发送消息，实现模板的生成和索引库的增加
+        sendMessage(spuId,"insert");
 
     }
 
@@ -182,6 +185,26 @@ public class  GoodsServiceImpl implements GoodsService {
     @Override
     public TbSpuDetailEntity querySpuDetailBySpuId(Long spuId) {
         return spuDetailRepository.findById(spuId).orElse(null);
+    }
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
+    /**
+     * 封装发送消息的方法
+     *  注意：这里要把所有异常都try起来，不能让消息的发送影响到正常的业务逻辑
+     * @param id
+     * @param type
+     */
+    private void sendMessage(Long id, String type){
+        // 发送消息
+        try {
+            this.amqpTemplate.convertAndSend("item." + type, id);   // 这里没有指定交换机，因此默认发送到了配置中的：`leyou.item.exchange`
+            log.info("消息发送成功，id为{}",id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("{}商品消息发送异常，商品id：{}", type, id, e);
+        }
     }
 
 

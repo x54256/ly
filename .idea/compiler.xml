@@ -2,24 +2,39 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ly-auth-interface" />
+        <module name="ly-auth-service" />
         <module name="ly-commons" />
         <module name="ly-gateway" />
+        <module name="ly-goods-interface" />
+        <module name="ly-goods-service" />
         <module name="ly-item-interface" />
         <module name="ly-item-service" />
         <module name="ly-register" />
         <module name="ly-search-interface" />
         <module name="ly-search-service" />
+        <module name="ly-sms-interface" />
+        <module name="ly-sms-service" />
         <module name="ly-upload-interface" />
         <module name="ly-upload-service" />
+        <module name="ly-user-interface" />
+        <module name="ly-user-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="ly-auth" target="1.8" />
+      <module name="ly-auth-interface" target="1.8" />
+      <module name="ly-auth-service" target="1.8" />
       <module name="ly-commons" target="1.8" />
       <module name="ly-gateway" target="1.8" />
+      <module name="ly-goods" target="1.8" />
+      <module name="ly-goods-interface" target="1.8" />
+      <module name="ly-goods-service" target="1.8" />
       <module name="ly-item" target="1.8" />
       <module name="ly-item-interface" target="1.8" />
       <module name="ly-item-service" target="1.8" />
@@ -28,9 +43,15 @@
       <module name="ly-search" target="1.8" />
       <module name="ly-search-interface" target="1.8" />
       <module name="ly-search-service" target="1.8" />
+      <module name="ly-sms" target="1.8" />
+      <module name="ly-sms-interface" target="1.8" />
+      <module name="ly-sms-service" target="1.8" />
       <module name="ly-upload" target="1.8" />
       <module name="ly-upload-interface" target="1.8" />
       <module name="ly-upload-service" target="1.8" />
+      <module name="ly-user" target="1.8" />
+      <module name="ly-user-interface" target="1.8" />
+      <module name="ly-user-service" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
