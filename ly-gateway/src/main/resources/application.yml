@@ -42,3 +42,16 @@ hystrix:
         isolation:
           thread:
             timeoutInMillisecond: 10000 # 熔断超时时长：10000ms
+
+leyou:
+  jwt:
+    pubKeyPath: /Users/x5456/Desktop/ly-parent/rsa.pub # 公钥地址
+    cookieName: LY_COOKIE # cookie的名称
+  filter: # filter拦截的白名单
+    allowPaths:
+      - /api/auth
+      - /api/search
+      - /api/user/register
+      - /api/user/check
+      - /api/user/code
+      - /api/item

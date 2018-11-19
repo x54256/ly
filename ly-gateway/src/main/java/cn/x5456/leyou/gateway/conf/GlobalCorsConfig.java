@@ -1,4 +1,4 @@
-package cn.x5456.leyou.conf;
+package cn.x5456.leyou.gateway.conf;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
