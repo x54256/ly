@@ -29,7 +29,8 @@ public enum ExceptionEnums {
     USER_REGISTER_ERROR(504,"用户注册失败！"),
     CODE_IS_EXPIRED(505,"验证码已过期！"),
     CODE_IS_FAILD(506,"验证码输入错误！"),
-    USER_CANNOT_BE_NULL(507,"用户查询为空!")
+    USER_CANNOT_BE_NULL(507,"用户查询为空!"),
+    CART_CANNOT_BE_NULL(508,"购物车查询为空!")
     ;
 
     private int code;

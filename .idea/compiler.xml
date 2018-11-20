@@ -9,6 +9,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ly-auth-interface" />
         <module name="ly-auth-service" />
+        <module name="ly-cart-interface" />
+        <module name="ly-cart-service" />
         <module name="ly-commons" />
         <module name="ly-gateway" />
         <module name="ly-goods-interface" />
@@ -30,6 +32,9 @@
       <module name="ly-auth" target="1.8" />
       <module name="ly-auth-interface" target="1.8" />
       <module name="ly-auth-service" target="1.8" />
+      <module name="ly-cart" target="1.8" />
+      <module name="ly-cart-interface" target="1.8" />
+      <module name="ly-cart-service" target="1.8" />
       <module name="ly-commons" target="1.8" />
       <module name="ly-gateway" target="1.8" />
       <module name="ly-goods" target="1.8" />

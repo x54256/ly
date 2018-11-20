@@ -60,7 +60,8 @@ public class AuthController {
      * @return
      */
     @GetMapping("verify")
-    public ResponseEntity<UserInfo> verifyUser(@CookieValue("${ly.jwt.cookieName}") String token, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<UserInfo> verifyUser(@CookieValue("LY_COOKIE") String token, HttpServletRequest request, HttpServletResponse response) {
+        log.info("正在经过验证");
         try {
             //从Token中获取用户信息
             UserInfo userInfo = JwtUtils.getUserInfo(props.getPublicKey(), token);
@@ -68,6 +69,7 @@ public class AuthController {
             String newToken = JwtUtils.generateToken(userInfo, props.getPrivateKey(), props.getExpire());
             //将新的Token写入cookie中，并设置httpOnly
             CookieUtils.newBuilder(response).httpOnly().maxAge(props.getCookieMaxAge()).request(request).build(props.getCookieName(), newToken);
+            log.info("token验证通过！");
             return ResponseEntity.ok(userInfo);
         } catch (Exception e) {
             e.printStackTrace();

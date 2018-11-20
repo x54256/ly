@@ -4,7 +4,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
@@ -18,7 +17,7 @@ public class a {
 
     @Test
     public void hello(){
-
+//        BoundHashOperations<String, Object, Object> hashOps = redisTemplate.boundHashOps(key);
         /*
         redisTemplate.opsForValue();//操作字符串
         redisTemplate.opsForHash();//操作hash
@@ -27,9 +26,9 @@ public class a {
         redisTemplate.opsForSet();//操作set
         redisTemplate.opsForZSet();//操作有序set
          */
-        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        valueOperations.set("hello", "redis");
-        System.out.println("useRedisDao = " + valueOperations.get("hello"));
+//        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+//        valueOperations.set("hello", "redis");
+//        System.out.println("useRedisDao = " + valueOperations.get("hello"));
 
     }
 }

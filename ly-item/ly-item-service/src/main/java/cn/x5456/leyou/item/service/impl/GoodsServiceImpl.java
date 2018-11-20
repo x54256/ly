@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -185,6 +186,21 @@ public class  GoodsServiceImpl implements GoodsService {
     @Override
     public TbSpuDetailEntity querySpuDetailBySpuId(Long spuId) {
         return spuDetailRepository.findById(spuId).orElse(null);
+    }
+
+    /**
+     * sku
+     * @param skuIds
+     * @return
+     */
+    @Override
+    public List<TbSkuEntity> querySkuBySkuId(Long[] skuIds) {
+        ArrayList<TbSkuEntity> list = new ArrayList<>();
+        for (Long skuId : skuIds) {
+            TbSkuEntity tbSkuEntity = skuRepository.findById(skuId).orElse(null);
+            list.add(tbSkuEntity);
+        }
+        return list;
     }
 
     @Autowired

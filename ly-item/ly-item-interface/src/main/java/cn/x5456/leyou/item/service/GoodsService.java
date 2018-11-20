@@ -22,4 +22,6 @@ public interface GoodsService {
     List<TbSpuEntity> findAllSpu();
 
     TbSpuDetailEntity querySpuDetailBySpuId(Long spuId);
+
+    List<TbSkuEntity> querySkuBySkuId(Long[] skuId);
 }

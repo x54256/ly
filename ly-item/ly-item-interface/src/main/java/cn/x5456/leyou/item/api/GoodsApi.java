@@ -77,4 +77,12 @@ public interface GoodsApi {
     @GetMapping("/spu/detail")
     TbSpuDetailEntity findSpuDetailBySpuId(@RequestParam(value = "spuId") Long spuId);
 
+
+    /**
+     * 根据skuId查询Sku
+     * @param ids:skuIds
+     * @return
+     */
+    @GetMapping("/sku/list/ids")
+    List<TbSkuEntity> querySkuBySkuId(@RequestParam(value = "ids") Long[] ids);
 }

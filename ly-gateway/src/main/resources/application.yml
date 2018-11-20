@@ -21,6 +21,7 @@ zuul:
     search-service: /search/** # 搜索微服务
     user-service: /user/** # 用户微服务
     auth-service: /auth/** # 授权中心微服务
+    cart-service: /cart/**  # 购物车微服务
 
   # 图片上传是文件的传输，如果也经过Zuul网关的代理，文件就会经过多次网路传输，造成不必要的网络负担。
   # 在高并发时，可能导致网络阻塞，Zuul网关不可用。这样我们的整个系统就瘫痪了。

@@ -189,27 +189,115 @@ server {
 
 ```
 
-## 7、SpringAMQP消费者端，重试机制
+## 7、SpringAMQP消费者端重试机制
 
     spring.rabbitmq.listener.simple.retry.max-attempts=5  最大重试次数
     spring.rabbitmq.listener.simple.retry.enabled=true 是否开启消费者重试（为false时关闭消费者重试，这时消费端代码异常会一直重复收到消息）
     spring.rabbitmq.listener.simple.retry.initial-interval=5000 重试间隔时间（单位毫秒）
     spring.rabbitmq.listener.simple.default-requeue-rejected=false 重试次数超过上面的设置之后是否丢弃（false不丢弃时需要写相应代码将该消息加入死信队列）
 
-
 ## 8、@Autowired与@Resource的区别
 
+@Autowired按byType自动注入，而@Resource默认按 byName自动注入，所以此处使用Resource会有错误
+
+![image-20181119163712028](https://ws1.sinaimg.cn/large/006tNbRwly1fxdgki0u9ej30qo03w3zd.jpg)
 
 ## 9、HIbrenate数据校验
 
+我们在`ly-user-interface`中添加Hibernate-Validator依赖：
 
-## 10、redis实现时间的记录
+```xml
+<dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator</artifactId>
+</dependency>
+```
+
+我们在User对象的部分属性上添加注解：
+
+```java
+@Table(name = "tb_user")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Length(min = 4, max = 30, message = "用户名只能在4~30位之间")
+    private String username;// 用户名
+
+    @JsonIgnore
+    @Length(min = 4, max = 30, message = "用户名只能在4~30位之间")
+    private String password;// 密码
+
+    @Pattern(regexp = "^1[35678]\\d{9}$", message = "手机号格式不正确")
+    private String phone;// 电话
+
+    private Date created;// 创建时间
+
+    @JsonIgnore
+    private String salt;// 密码的盐值
+}
+```
+
+在controller上进行控制
+
+在controller中只需要给User添加 @Valid注解即可。
+
+![image-20181119164102952](https://ws2.sinaimg.cn/large/006tNbRwly1fxdgoibcc7j30ys0eutc0.jpg)
+
+### Bean校验的注解：
+
+| **Constraint**                                     | **详细信息**                                                 |
+| -------------------------------------------------- | ------------------------------------------------------------ |
+| **@Valid**                                         | 被注释的元素是一个对象，需要检查此对象的所有字段值           |
+| **@Null**                                          | 被注释的元素必须为 null                                      |
+| **@NotNull**                                       | 被注释的元素必须不为 null                                    |
+| **@AssertTrue**                                    | 被注释的元素必须为 true                                      |
+| **@AssertFalse**                                   | 被注释的元素必须为 false                                     |
+| **@Min(value)**                                    | 被注释的元素必须是一个数字，其值必须大于等于指定的最小值     |
+| **@Max(value)**                                    | 被注释的元素必须是一个数字，其值必须小于等于指定的最大值     |
+| **@DecimalMin(value)**                             | 被注释的元素必须是一个数字，其值必须大于等于指定的最小值     |
+| **@DecimalMax(value)**                             | 被注释的元素必须是一个数字，其值必须小于等于指定的最大值     |
+| **@Size(max,   min)**                              | 被注释的元素的大小必须在指定的范围内                         |
+| **@Digits   (integer, fraction)**                  | 被注释的元素必须是一个数字，其值必须在可接受的范围内         |
+| **@Past**                                          | 被注释的元素必须是一个过去的日期                             |
+| **@Future**                                        | 被注释的元素必须是一个将来的日期                             |
+| **@Pattern(value)**                                | 被注释的元素必须符合指定的正则表达式                         |
+| **@Email**                                         | 被注释的元素必须是电子邮箱地址                               |
+| **@Length**                                        | 被注释的字符串的大小必须在指定的范围内                       |
+| **@NotEmpty**                                      | 被注释的字符串的必须非空                                     |
+| **@Range**                                         | 被注释的元素必须在合适的范围内                               |
+| **@NotBlank**                                      | 被注释的字符串的必须非空                                     |
+| **@URL(protocol=,host=,   port=,regexp=, flags=)** | 被注释的字符串必须是一个有效的url                            |
+| **@CreditCardNumber**                              | 被注释的字符串必须通过Luhn校验算法，银行卡，信用卡等号码一般都用Luhn计算合法性 |
+
+## 10、nignx，zuul转发的坑
+
+![image-20181119163838117](https://ws1.sinaimg.cn/large/006tNbRwly1fxdglyzsq7j30sa0diwgs.jpg)
 
 
-## 11、nignx，zuul转发的坑
 
+![image-20181119163937162](https://ws2.sinaimg.cn/large/006tNbRwly1fxdgn0xx10j317w0h2jy9.jpg)
 
-## 12、获取cookie的注解
+敏感头过滤的解决方案有以下两种：
+​         
+全局设置：
 
-@CookieValue("${ly.jwt.cookieName}
+- `zuul.sensitive-headers=` 
 
+指定路由设置：
+
+- `zuul.routes.<routeName>.sensitive-headers=`
+- `zuul.routes.<routeName>.custom-sensitive-headers=true`
+
+## 11、获取cookie的注解
+
+    @CookieValue("${ly.jwt.cookieName}")
+        ${ly.jwt.cookieName}:这种方式会有坑，还是写死把
+
+## 12、JWT架构图
+
+![image-20181119164614555](https://ws2.sinaimg.cn/large/006tNbRwly1fxdgtw6ckgj316e0s0dl0.jpg)
+
+## 13、购物车架构图
+
+![image-20181119165517217](https://ws4.sinaimg.cn/large/006tNbRwly1fxdh3c104ej30vn0u07b9.jpg)

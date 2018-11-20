@@ -118,6 +118,25 @@ public class GoodsController {
     }
 
     /**
+     * 根据skuId查询Sku
+     * //http://api.leyou.com/api/item/sku/list/ids?ids=27359021703
+     * @param ids:skuId
+     * @return
+     */
+    @GetMapping("/sku/list/ids")
+    public ResponseEntity<List<TbSkuEntity>> querySkuBySkuId(@RequestParam(value = "ids") Long[] ids){
+
+        List<TbSkuEntity> skus = goodsService.querySkuBySkuId(ids);
+
+        if (skus == null){
+            log.error("sku查询为空");
+            throw new LyException(ExceptionEnums.SKU_CANNOT_BE_NULL);
+        }
+
+        return ResponseEntity.ok(skus);
+    }
+
+    /**
      * 查询所有spu
      * @return
      */

@@ -16,6 +16,9 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 目的是，将一些需要登录的请求过滤掉，架构图请看README.md
+ */
 @Component
 @EnableConfigurationProperties({JwtProperties.class, FilterProperties.class})
 public class LoginFilter extends ZuulFilter {
