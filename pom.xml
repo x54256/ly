@@ -21,6 +21,7 @@
         <module>ly-sms</module>
         <module>ly-auth</module>
         <module>ly-cart</module>
+        <module>ly-config</module>
     </modules>
 
     <parent>

@@ -32,18 +32,24 @@ public class LoginFilter extends ZuulFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginFilter.class);
 
+    /**
+     * pre :可以在请求被路由之前调用
+     * route :在路由请求时候被调用
+     * post :在route和error过滤器之后被调用
+     * error :处理请求时发生错误时被调用
+     */
     @Override
     public String filterType() {
-        return "pre";
+        return "pre";	// 表示是前置过滤器
     }
 
     @Override
     public int filterOrder() {
-        return 5;
+        return 5;	// 优先级为5，数字越大，优先级越低
     }
 
     @Override
-    public boolean shouldFilter() {
+    public boolean shouldFilter() {	
         // 获取上下文
         RequestContext ctx = RequestContext.getCurrentContext();
         // 获取request
@@ -51,7 +57,7 @@ public class LoginFilter extends ZuulFilter {
         // 获取路径
         String requestURI = req.getRequestURI();
         // 判断白名单
-        return !isAllowPath(requestURI);
+        return !isAllowPath(requestURI);	// 是否执行该过滤器，此处为true，说明需要过滤
     }
 
     /**
@@ -74,6 +80,9 @@ public class LoginFilter extends ZuulFilter {
 
     }
 
+    /** 
+     * 过滤器的具体逻辑
+     */
     @Override
     public Object run() throws ZuulException {
         // 获取上下文

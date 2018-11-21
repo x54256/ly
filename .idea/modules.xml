@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/ly-cart/ly-cart-interface/ly-cart-interface.iml" filepath="$PROJECT_DIR$/ly-cart/ly-cart-interface/ly-cart-interface.iml" />
       <module fileurl="file://$PROJECT_DIR$/ly-cart/ly-cart-service/ly-cart-service.iml" filepath="$PROJECT_DIR$/ly-cart/ly-cart-service/ly-cart-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/ly-commons/ly-commons.iml" filepath="$PROJECT_DIR$/ly-commons/ly-commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-config/ly-config.iml" filepath="$PROJECT_DIR$/ly-config/ly-config.iml" />
       <module fileurl="file://$PROJECT_DIR$/ly-gateway/ly-gateway.iml" filepath="$PROJECT_DIR$/ly-gateway/ly-gateway.iml" />
       <module fileurl="file://$PROJECT_DIR$/ly-goods/ly-goods.iml" filepath="$PROJECT_DIR$/ly-goods/ly-goods.iml" />
       <module fileurl="file://$PROJECT_DIR$/ly-goods/ly-goods-interface/ly-goods-interface.iml" filepath="$PROJECT_DIR$/ly-goods/ly-goods-interface/ly-goods-interface.iml" />

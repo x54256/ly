@@ -1,0 +1,20 @@
+server:
+  port: 12000
+spring:
+  application:
+    name: ly-config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/x54256/ly-config.git
+  rabbitmq:
+    host: 127.0.0.1
+    username: leyou
+    password: leyou
+    virtual-host: /leyou
+management: #暴露触发消息总线的地址
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
