@@ -1,0 +1,69 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: item-service
+  datasource:
+    url: jdbc:mysql://192.168.2.90:3306/leyou?characterEncoding=UTF-8
+    username: root
+    password: 5456
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+  jpa:
+    hibernate:
+      ddl-auto: update  # 更新或创建数据表
+    show-sql: true  # 控制台打印sql
+  jackson:
+      default-property-inclusion: non_null  # jackson返回的数据为null，不返回
+  rabbitmq:
+      host: 192.168.2.90
+      username: leyou
+      password: leyou
+      virtual-host: /leyou
+      template:
+        exchange: leyou.item.exchange
+        retry:
+          enabled: true
+          initial-interval: 100000ms
+          max-interval: 300000ms
+          multiplier: 2
+      publisher-confirms: true
+
+# - template：有关`AmqpTemplate`的配置
+#   - retry：失败重试
+#     - enabled：开启失败重试
+#     - initial-interval：第一次重试的间隔时长
+#     - max-interval：最长重试间隔，超过这个间隔将不再重试
+#     - multiplier：下次重试间隔的倍数，此处是2即下次重试间隔是上次的2倍
+#   - exchange：缺省的交换机名称，此处配置后，发送消息如果不指定交换机就会使用这个
+# - publisher-confirms：生产者确认机制，确保消息会正确发送，如果发送失败会有错误回执，从而触发重试
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.2.90:10086/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+    prefer-ip-address: true # 返回eureka的是ip，而不是主机名
+    ip-address: 127.0.0.1 # 设置返回的ip是啥
+    instance-id: ${spring.application.name}:${server.port}
+#logging:
+#  level:
+#    root: INFO
+#    org:
+#      springframework:
+#        security: DEBUG
+#        web: ERROR
+#      hibernate: DEBUG
+#      apache:
+#        commons:
+#          dbcp2: DEBUG
+##  path: concretepage/logs
+#  pattern:
+#    file: '%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n'
+#    console: '%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n'
+#  file: mylogfile-manager.log
+#

@@ -1,7 +1,0 @@
-spring:
-  cloud:
-    config:
-      name: item
-      profile: dev
-      label: master # 主分支
-      uri: http://127.0.0.1:12000 # 配置中心微服务地址

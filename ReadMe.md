@@ -301,3 +301,12 @@ public class User {
 ## 13、购物车架构图
 
 ![image-20181119165517217](https://ws4.sinaimg.cn/large/006tNbRwly1fxdh3c104ej30vn0u07b9.jpg)
+
+
+spring:
+  cloud:
+    config:
+      name: item
+      profile: dev
+      label: master # 主分支
+      uri: http://127.0.0.1:12000 # 配置中心微服务地址
