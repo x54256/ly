@@ -10,6 +10,7 @@ spring:
     hikari:
       maximum-pool-size: 30
       minimum-idle: 10
+    driver-class-name: com.mysql.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update  # 更新或创建数据表
