@@ -12,6 +12,19 @@ spring:
     default-property-inclusion: non_null
   redis:
     host: 127.0.0.1
+  rabbitmq:
+      host: 127.0.0.1
+      username: leyou
+      password: leyou
+      virtual-host: /leyou
+      template:
+        exchange: leyou.stock.exchange
+        retry:
+          enabled: true
+          initial-interval: 100000ms
+          max-interval: 300000ms
+          multiplier: 2
+      publisher-confirms: true
 eureka:
   client:
     service-url:

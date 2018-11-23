@@ -17,19 +17,16 @@ import cn.x5456.leyou.order.repository.OrderDetailRepository;
 import cn.x5456.leyou.order.repository.OrderRepository;
 import cn.x5456.leyou.order.repository.OrderStatusRepository;
 import cn.x5456.leyou.order.service.OrderService;
-import cn.x5456.leyou.order.utils.PayHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -50,6 +47,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Resource
     private GoodsClient goodsClient;
+
+    @Resource
+    private AmqpTemplate amqpTemplate;
 
     /**
      * 生成订单
@@ -123,8 +123,19 @@ public class OrderServiceImpl implements OrderService {
         // 4.减库存（一定要放在最后，投机，避免分布式事务）
         goodsClient.decreaseStock(orderDTO.getCarts());
 
-        // TODO: 2018/11/23 5.删除购物车中已经下单的商品数据, 采用异步mq的方式通知购物车系统删除已购买的商品，传送商品ID和用户ID
+        log.info("订单生成成功，订单id为{}，用户id为{}",orderId,LoginInterceptor.getLoginUser().getId());
 
+        try {
+            // 5.删除购物车中已经下单的商品数据, 采用异步mq的方式通知购物车系统删除已购买的商品，传送商品ID和用户ID
+            HashMap<String, Object> mqMap = new HashMap<>();
+            mqMap.put("userId",LoginInterceptor.getLoginUser().getId());
+            mqMap.put("skuIds",new HashSet<Long>(map.keySet()));
+            this.amqpTemplate.convertAndSend("cart.sku.stock", mqMap);
+            log.info("消息发送成功！");
+        }catch (Exception ex){
+            log.error("删除购物车中的商品失败！");
+            ex.printStackTrace();
+        }
 
         return orderId;
     }
