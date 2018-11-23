@@ -17,6 +17,9 @@
     <file url="file://$PROJECT_DIR$/ly-item" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ly-item/ly-item-interface" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ly-item/ly-item-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ly-order" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ly-order/ly-order-interface" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ly-order/ly-order-service" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ly-register" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ly-search" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ly-search/ly-search-interface" charset="UTF-8" />

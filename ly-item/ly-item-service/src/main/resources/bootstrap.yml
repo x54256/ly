@@ -4,4 +4,4 @@ spring:
       name: item
       profile: dev
       label: master # 主分支
-      uri: http://192.168.2.90:12000 # 配置中心微服务地址
+      uri: http://127.0.0.1:12000 # 配置中心微服务地址

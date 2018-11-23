@@ -1,5 +1,7 @@
 package cn.x5456.leyou.item.service.impl;
 
+import cn.x5456.leyou.common.enums.ExceptionEnums;
+import cn.x5456.leyou.common.exception.LyException;
 import cn.x5456.leyou.common.pojo.PageResult;
 import cn.x5456.leyou.item.dozer.EJBGenerator;
 import cn.x5456.leyou.item.dto.GoodsDTO;
@@ -14,6 +16,7 @@ import cn.x5456.leyou.item.repository.StockRepository;
 import cn.x5456.leyou.item.service.BrandService;
 import cn.x5456.leyou.item.service.CategoryService;
 import cn.x5456.leyou.item.service.GoodsService;
+import cn.x5456.leyou.order.dto.CartDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -201,6 +204,25 @@ public class  GoodsServiceImpl implements GoodsService {
             list.add(tbSkuEntity);
         }
         return list;
+    }
+
+    /**
+     * 减少商品库存
+     * @param skuId:商品id
+     * @param num:购买数量
+     * @return
+     */
+    @Transactional
+    @Override
+    public void decreaseStock(List<CartDTO> cartDTOS) {
+
+        cartDTOS.forEach(x -> {
+            // 返回的是更新数据的条数
+            Integer integer = stockRepository.decreaseStock(x.getSkuId(), x.getNum());
+            if (integer == 0){
+                throw new LyException(ExceptionEnums.STOCK_IS_NOT_ENOUGH);
+            }
+        });
     }
 
     @Autowired

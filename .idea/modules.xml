@@ -17,6 +17,9 @@
       <module fileurl="file://$PROJECT_DIR$/ly-item/ly-item.iml" filepath="$PROJECT_DIR$/ly-item/ly-item.iml" />
       <module fileurl="file://$PROJECT_DIR$/ly-item/ly-item-interface/ly-item-interface.iml" filepath="$PROJECT_DIR$/ly-item/ly-item-interface/ly-item-interface.iml" />
       <module fileurl="file://$PROJECT_DIR$/ly-item/ly-item-service/ly-item-service.iml" filepath="$PROJECT_DIR$/ly-item/ly-item-service/ly-item-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-order/ly-order.iml" filepath="$PROJECT_DIR$/ly-order/ly-order.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-order/ly-order-interface/ly-order-interface.iml" filepath="$PROJECT_DIR$/ly-order/ly-order-interface/ly-order-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ly-order/ly-order-service/ly-order-service.iml" filepath="$PROJECT_DIR$/ly-order/ly-order-service/ly-order-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/ly-parent.iml" filepath="$PROJECT_DIR$/ly-parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/ly-register/ly-register.iml" filepath="$PROJECT_DIR$/ly-register/ly-register.iml" />
       <module fileurl="file://$PROJECT_DIR$/ly-search/ly-search.iml" filepath="$PROJECT_DIR$/ly-search/ly-search.iml" />

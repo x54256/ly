@@ -9,6 +9,7 @@ import cn.x5456.leyou.item.entity.TbSkuEntity;
 import cn.x5456.leyou.item.entity.TbSpuDetailEntity;
 import cn.x5456.leyou.item.entity.TbSpuEntity;
 import cn.x5456.leyou.item.service.GoodsService;
+import cn.x5456.leyou.order.dto.CartDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -161,6 +162,26 @@ public class GoodsController {
             throw new LyException(ExceptionEnums.SPU_DETAIL_CANNOT_BE_NULL);
         }
         return ResponseEntity.ok(detailEntity);
+    }
+
+    /**
+     * 减少商品库存
+     * @param skuId:商品id
+     * @param num:购买数量
+     * @return
+     */
+    @PutMapping("/stock/decrease")
+    public ResponseEntity<Void> decreaseStock(@RequestBody List<CartDTO> cartDTOS){
+
+//        // 1.查询数据库判断库存是否足够
+//        int stock = 1;
+//
+//        if (stock > 1){
+//            // 2.如果足够的话那么减库存
+//        }
+
+        goodsService.decreaseStock(cartDTOS);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

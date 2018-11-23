@@ -150,6 +150,8 @@ server {
         2）有时候不加@Param注解参数，可能会报如下异常：
             org.springframework.dao.InvalidDataAccessApiUsageException: Name must not be null or empty!; nested exception is java.lang.IllegalArgumentException: Name must not be null or empty!
         3）当使用集合作为条件时，可参考此处的ids   
+    6。一定要加上这个注解，才能返回保存的id
+    > @GeneratedValue(strategy = GenerationType.IDENTITY)
 
 
 ## 5、fegin使用问题
@@ -302,4 +304,63 @@ public class User {
 
 ![image-20181119165517217](https://ws4.sinaimg.cn/large/006tNbRwly1fxdh3c104ej30vn0u07b9.jpg)
 
+## 14、远程调用是出现NoSuchMethodException: java.util.List.<init>()异常
 
+>  Fegin远程调用的时候是将List和对象转成json的，所以需要加上@RequestBody注解
+
+## 15、生成订单中包含的知识点（包含分布式事务）
+
+![image-20181123154031364](https://ws1.sinaimg.cn/large/006tNbRwly1fxi1ery5p9j318f0u0k3h.jpg)
+
+![image-20181123163645626](https://ws4.sinaimg.cn/large/006tNbRwly1fxi319uvbrj31dr0u047m.jpg)
+
+分布式事务：微服务之间异步调用时出现多个事务（不一致）的问题
+
+此处采用了非常巧妙的方式解决，但是有下面3个条件
+
+- 同步调用，没有使用异步（MQ）
+- 远程调用的服务throw异常
+- 远程调用放到最后（如果在前面的话，会有这样的问题：减库存成功的执行，已经提交了事务，但是下面的有异常了，进行了回滚，但是库存已经减少了没有办法再加回来了）
+
+![image-20181123154747796](https://ws2.sinaimg.cn/large/006tNbRwly1fxi1mbva3cj317g0j277y.jpg)
+
+![image-20181123154944236](https://ws2.sinaimg.cn/large/006tNbRwly1fxi1oc43twj31fk07imyv.jpg)
+
+## 16、线程安全问题
+
+![image-20181123133238489](https://ws2.sinaimg.cn/large/006tNbRwly1fxhxpovn4zj30yo0akjvy.jpg)
+
+我们会想加上synchronized关键字，但是他只能控制一台服务器
+
+![image-20181123133432366](https://ws1.sinaimg.cn/large/006tNbRwly1fxhxroifoij31580aewmi.jpg)
+
+### 分布式锁（悲观锁）：使用第三方锁住
+
+- 使用redis：
+  - setnx key value：当key不存在的时候才能添加，添加成功返回1，失败返回0
+    - 我们可以使用setnx上锁，结束了使用del删除
+  - redis做分布式锁的问题：会导致死锁，当链接redis的服务器宕机，里面的值永远不会被删了，zookeeper在节点断开的时候，会自动删除
+- 使用zookeeper：
+  - 问题1：使用锁，那么就是单线程的，**非常慢**
+  - 问题2：我不会用
+
+那么我们采用乐观锁
+
+### 乐观锁（不加锁）：
+
+在sql中加条件
+
+![image-20181123134216501](/Users/x5456/Library/Application%20Support/typora-user-images/image-20181123134216501.png)
+
+```sql
+@Modifying
+@Query("update TbStockEntity s set s.stock = s.stock - ?2 where s.skuId = ?1 and s.stock >= ?2")
+Integer decreaseStock(Long skuId, Integer num);	// 返回操作的行数，我们可以进行判断
+```
+
+### 代码中的问题：
+
+我加了全局异常捕获，LyException异常抛不会调用方，解决办法：
+
+- 采用别的异常
+- 使用返回值进行判断

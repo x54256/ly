@@ -24,7 +24,7 @@ public class SpecServiceImpl implements SpecService {
     private SpecParamRepository specParamRepository;
 
     /**
-     * 根据规格参数组id进行查询
+     * 根据分类id进行查询下面的多个规格组
      * @param cid：商品分类id，一个分类下有多个规格组
      * @return
      */
@@ -60,6 +60,11 @@ public class SpecServiceImpl implements SpecService {
         return specParamRepository.findAllBySearchingAndCid(true,cid);
     }
 
+    /**
+     * 根据分类id获取规格参数组的所有信息（包括参数）
+     * @param cid
+     * @return
+     */
     @Override
     public List<TbSpecGroupEntity> querySpecsByCid(Long cid) {
 
@@ -68,7 +73,7 @@ public class SpecServiceImpl implements SpecService {
         // TODO: 2018/11/18 这中方式，要与数据库进行多次交互，数据量大时时间很长
 //        specGroupById.forEach(x -> {
 //            // 根据组id查询所有的参数
-//            specParamRepository.findAllByGroupId(x.getId());
+//            x.setParams(specParamRepository.findAllByGroupId(x.getId()));
 //        });
 
         // 一次性查出所有的params

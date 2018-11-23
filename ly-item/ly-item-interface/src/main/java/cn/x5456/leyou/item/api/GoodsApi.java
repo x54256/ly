@@ -6,6 +6,7 @@ import cn.x5456.leyou.item.dto.GoodsDTO;
 import cn.x5456.leyou.item.entity.TbSkuEntity;
 import cn.x5456.leyou.item.entity.TbSpuDetailEntity;
 import cn.x5456.leyou.item.entity.TbSpuEntity;
+import cn.x5456.leyou.order.dto.CartDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -85,4 +86,13 @@ public interface GoodsApi {
      */
     @GetMapping("/sku/list/ids")
     List<TbSkuEntity> querySkuBySkuId(@RequestParam(value = "ids") Long[] ids);
+
+    /**
+     * 减少商品库存
+     * @param skuId:商品id
+     * @param num:购买数量
+     * @return
+     */
+    @PutMapping("/stock/decrease")
+    Void decreaseStock(@RequestBody List<CartDTO> cartDTOS);
 }

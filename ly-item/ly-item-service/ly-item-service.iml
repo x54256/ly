@@ -123,6 +123,7 @@
     <orderEntry type="library" name="Maven: org.hdrhistogram:HdrHistogram:2.1.10" level="project" />
     <orderEntry type="library" name="Maven: org.latencyutils:LatencyUtils:2.0.3" level="project" />
     <orderEntry type="module" module-name="ly-item-interface" />
+    <orderEntry type="module" module-name="ly-order-interface" />
     <orderEntry type="library" name="Maven: net.sf.dozer:dozer-spring:5.5.1" level="project" />
     <orderEntry type="library" name="Maven: net.sf.dozer:dozer:5.5.1" level="project" />
     <orderEntry type="library" name="Maven: commons-beanutils:commons-beanutils:1.9.1" level="project" />

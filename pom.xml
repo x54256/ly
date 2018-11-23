@@ -22,6 +22,7 @@
         <module>ly-auth</module>
         <module>ly-cart</module>
         <module>ly-config</module>
+        <module>ly-order</module>
     </modules>
 
     <parent>

@@ -30,8 +30,10 @@ public enum ExceptionEnums {
     CODE_IS_EXPIRED(505,"验证码已过期！"),
     CODE_IS_FAILD(506,"验证码输入错误！"),
     USER_CANNOT_BE_NULL(507,"用户查询为空!"),
-    CART_CANNOT_BE_NULL(508,"购物车查询为空!")
-    ;
+    CART_CANNOT_BE_NULL(508,"购物车查询为空!"),
+    STOCK_IS_NOT_ENOUGH(509,"商品库存不足!"),
+    WX_PAY_SIGN_INVALID(510, "微信支付令牌错误！"),
+    ORDER_NOT_FOUND(511,"订单未找到！" ), ORDER_STATUS_EXCEPTION(512,"订单状态异常！" ), CREATE_PAY_URL_ERROR(513, "创建订单异常！");
 
     private int code;
     private String msg;

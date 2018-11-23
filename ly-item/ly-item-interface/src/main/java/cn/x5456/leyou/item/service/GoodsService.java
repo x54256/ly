@@ -5,6 +5,7 @@ import cn.x5456.leyou.item.dto.GoodsDTO;
 import cn.x5456.leyou.item.entity.TbSkuEntity;
 import cn.x5456.leyou.item.entity.TbSpuDetailEntity;
 import cn.x5456.leyou.item.entity.TbSpuEntity;
+import cn.x5456.leyou.order.dto.CartDTO;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface GoodsService {
     TbSpuDetailEntity querySpuDetailBySpuId(Long spuId);
 
     List<TbSkuEntity> querySkuBySkuId(Long[] skuId);
+
+    void decreaseStock(List<CartDTO> cartDTOS);
 }

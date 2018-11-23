@@ -152,6 +152,7 @@
     <orderEntry type="module" module-name="ly-auth-interface" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-configuration-processor:2.0.5.RELEASE" level="project" />
     <orderEntry type="module" module-name="ly-item-interface" />
+    <orderEntry type="module" module-name="ly-order-interface" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-jpa:2.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-jdbc:2.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:2.7.9" level="project" />

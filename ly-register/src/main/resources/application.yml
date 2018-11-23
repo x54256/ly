@@ -10,7 +10,7 @@ eureka:
     # 不向服务注册中心注册自己
     register-with-eureka: false
     service-url:
-      defaultZone: http://192.168.2.90:${server.port}/eureka
+      defaultZone: http://127.0.0.1:${server.port}/eureka
   server:
     enable-self-preservation: true # 开启自我保护
     eviction-interval-timer-in-ms: 5000 # 每隔5秒进行一次服务列表清理

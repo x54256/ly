@@ -111,7 +111,7 @@ public class CartServiceImpl implements CartService {
         Cart cart = JsonUtils.toBean(json.toString(), Cart.class);
         cart.setNum(cart.getNum() + num);
         // 4.保存
-        hashOps.put(skuId,JsonUtils.toString(cart));
+        hashOps.put(skuId.toString(),JsonUtils.toString(cart));
     }
 
     /**
@@ -124,7 +124,8 @@ public class CartServiceImpl implements CartService {
         // 1.获取用户信息
         UserInfo loginUser = LoginInterceptor.getLoginUser();
         // 2.从redis中删除数据
-        BoundHashOperations<String, Object, Object> hashOps = redisTemplate.boundHashOps(CART_PREFIX + loginUser.getId());
-        hashOps.delete(skuId);
+        redisTemplate.opsForHash().delete(CART_PREFIX + loginUser.getId(),skuId);
+//        BoundHashOperations<String, Object, Object> hashOps = redisTemplate.boundHashOps(CART_PREFIX + loginUser.getId());
+//        hashOps.delete(skuId);
     }
 }

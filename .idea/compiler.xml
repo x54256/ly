@@ -18,6 +18,8 @@
         <module name="ly-goods-service" />
         <module name="ly-item-interface" />
         <module name="ly-item-service" />
+        <module name="ly-order-interface" />
+        <module name="ly-order-service" />
         <module name="ly-register" />
         <module name="ly-search-interface" />
         <module name="ly-search-service" />
@@ -45,6 +47,9 @@
       <module name="ly-item" target="1.8" />
       <module name="ly-item-interface" target="1.8" />
       <module name="ly-item-service" target="1.8" />
+      <module name="ly-order" target="1.8" />
+      <module name="ly-order-interface" target="1.8" />
+      <module name="ly-order-service" target="1.8" />
       <module name="ly-parent" target="1.8" />
       <module name="ly-register" target="1.8" />
       <module name="ly-search" target="1.8" />
