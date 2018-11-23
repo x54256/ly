@@ -1,0 +1,20 @@
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	localhost
+255.255.255.255	broadcasthost
+::1             localhost
+0.0.0.0 account.jetbrains.com
+127.0.0.1 xmind.net
+127.0.0.1 www.xmind.net
+
+### leyou
+127.0.0.1  api.leyou.com
+127.0.0.1  manage.leyou.com
+52.83.220.77 devc-shaoxing 
+47.96.126.248 image.leyou.com
+127.0.0.1  www.leyou.com
+10.211.55.7    	centos-7.shared centos-7 #prl_hostonly shared

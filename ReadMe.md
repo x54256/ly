@@ -304,7 +304,7 @@ public class User {
 
 ![image-20181119165517217](https://ws4.sinaimg.cn/large/006tNbRwly1fxdh3c104ej30vn0u07b9.jpg)
 
-## 14、远程调用是出现NoSuchMethodException: java.util.List.<init>()异常
+## 14、远程调用是出现NoSuchMethodException: java.util.List.\<init>()异常
 
 >  Fegin远程调用的时候是将List和对象转成json的，所以需要加上@RequestBody注解
 
@@ -346,11 +346,11 @@ public class User {
 
 那么我们采用乐观锁
 
-### 乐观锁（不加锁）：
+### 乐观锁==不加锁：
 
 在sql中加条件
 
-![image-20181123134216501](/Users/x5456/Library/Application%20Support/typora-user-images/image-20181123134216501.png)
+![image-20181123134216501](https://ws2.sinaimg.cn/large/006tNbRwgy1fxiawm6tuzj311008awj0.jpg)
 
 ```sql
 @Modifying
